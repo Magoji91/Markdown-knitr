@@ -1,0 +1,37 @@
+library (dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Warning message:
+package ‘dplyr’ was built under R version 3.3.2 
+AvgDay <- activityData %>% group_by(date) %>%
++           summarize(total.steps = sum(steps, na.rm = T), 
++                   mean.steps = mean(steps, na.rm = T))
+library(ggplot2)
+
+Attaching package: ‘ggplot2’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    diamonds
+
+Warning message:
+package ‘ggplot2’ was built under R version 3.3.2 
+g <- ggplot(AvgDay, aes(x=total.steps))
+g + geom_histogram(binwidth = 2500) + theme(axis.text = element_text(size = 12),  
+      axis.title = element_text(size = 14)) + labs(y = "Frequency") + labs(x = "Total steps/day")
+summary(AvgDay$total.steps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+      0    6778   10400    9354   12810   21190 
+summary (AvgDay$mean.steps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+ 0.1424 30.7000 37.3800 37.3800 46.1600 73.5900       8 
+ 
