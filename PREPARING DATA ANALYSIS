@@ -5,4 +5,40 @@ fileUrl <- "https://www.coursera.org/learn/reproducible-research/peer/gYyPt/cour
 destfile <- "./data/activity.zip"
 download.file(fileUrl, destfile = destfile)
 dateDownloaded <- date()
-data_ <- read.csv(unz("./data/activity.zip", "activity.csv"))
+
+if(file.exists("./activity.csv")){
+                print("Dataset already downloaded and unzipped")
+                print("Loading Data...")
+}else if(file.exists("./repdata-data-activity.zip")){
+                print("Dataset downloaded. Now Unzipping...")
+                unzip("./repdata-data-activity.zip")
+                print("Completed.")
+                print("Loading Data...")
+}else if(!file.exists("./repdata-data-activity.zip")){
+                print("Downloading and unzipping dataset...")
+                download.file("http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip","./repdata-data-activity.zip")
+                unzip("./repdata-data-activity.zip")
+                print("Completed.")
+                print("Loading Data...")
+}
+activityData <- read.csv ("activity.csv", header = T, sep = ",", stringsAsFactors = F)
+activityData$date <- as.Date(activityData$date, "%Y-%m-%d")
+str(activityData)
+
+'data.frame':   17568 obs. of  3 variables:
+ $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
+ $ date    : Date, format: "2012-10-01" "2012-10-01" ...
+ $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+
+dim(activityData)
+[1] 17568     3
+
+head(activityData)
+
+ steps       date interval
+1    NA 2012-10-01        0
+2    NA 2012-10-01        5
+3    NA 2012-10-01       10
+4    NA 2012-10-01       15
+5    NA 2012-10-01       20
+6    NA 2012-10-01       25
