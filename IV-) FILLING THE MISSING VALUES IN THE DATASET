@@ -1,3 +1,10 @@
+mean(is.na(activityData$steps))
+[1] 0.1311475
+
+sum(is.na(activityData$steps))
+[1] 2304
+
+
 sum(is.na(AvgInterval$mean.steps))
 [1] 0
 newData <- activityData
