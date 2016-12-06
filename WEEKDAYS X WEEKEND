@@ -1,0 +1,4 @@
+activityData$date<-as.Date(data$date)
+activityData$Day_in_week<-ifelse((weekdays(data$date) %in% c("Monday","Tuesday","Wednesday","Thursday","Friday")), 
++                          "weekday","weekend")
+data_by_interval<-group_by(data,Day_in_week,interval)
