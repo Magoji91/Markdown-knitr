@@ -30,6 +30,24 @@ str(activityData)
  $ date    : Date, format: "2012-10-01" "2012-10-01" ...
  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
 
+ summary(activityData)
+     steps             date           
+ Min.   :  0.00   Min.   :2012-10-01  
+ 1st Qu.:  0.00   1st Qu.:2012-10-16  
+ Median :  0.00   Median :2012-10-31  
+ Mean   : 37.38   Mean   :2012-10-31  
+ 3rd Qu.: 12.00   3rd Qu.:2012-11-15  
+ Max.   :806.00   Max.   :2012-11-30  
+ NA's   :2304                         
+    interval     
+ Min.   :   0.0  
+ 1st Qu.: 588.8  
+ Median :1177.5  
+ Mean   :1177.5  
+ 3rd Qu.:1766.2  
+ Max.   :2355.0 
+
+
 dim(activityData)
 [1] 17568     3
 
