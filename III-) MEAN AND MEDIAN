@@ -1,0 +1,10 @@
+activity$date <- as.Date(activity$date)
+activity <- activity %>% filter(complete.cases(activity))
+totalsteps <- activity %>%
++     group_by(date) %>%
++     summarise(steps = sum(steps))
+> mean(totalsteps$steps)
+[1] 10766.19
+> median(totalsteps$steps)
+[1] 10765
+> 
