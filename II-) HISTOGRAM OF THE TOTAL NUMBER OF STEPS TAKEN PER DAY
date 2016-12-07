@@ -1,2 +1,4 @@
-actbyDate <-  aggregate(steps ~ date, activity, sum)
-> with(actbyDate,hist(steps,col="PURPLE",breaks=10,main="HISTOGRAN OF THE TOTAL STEPS PER DAY",xlab="STEPS PER DAY"))
+activity <- read.csv("activity.csv", as.is = TRUE)
+ 
+good_act <- activity[complete.cases(activity), ]
+with(actbyDate,hist(steps,col="PURPLE",breaks=10,main="HISTOGRAN OF THE TOTAL STEPS PER DAY",xlab="STEPS PER DAY"))
