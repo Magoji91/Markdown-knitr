@@ -1,6 +1,6 @@
 avgsteps <- activity %>%
-+     group_by(interval) %>%
-+     summarise(steps = mean(steps))
+    group_by(interval) %>%
+    summarise(steps = mean(steps))
 avgsteps[which.max(avgsteps$steps),1]
 # A tibble: 1 × 1
   interval
