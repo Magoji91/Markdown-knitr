@@ -1,6 +1,70 @@
-avgActbyInterval <- aggregate(steps ~ interval, activity, mean,na.rm=TRUE)
-library(ggplot2)
-ggplot(avgActbyInterval,aes(x=interval,y=steps,group=0)) +
-    geom_line(col="RED", size=1) + 
-    labs(title="AVERAGE STEPS BY INTERVAL",x="Daily interval",y="STEPS") + 
-    theme_bw()
+library(data.table)
+activityFilled <- activity
+
+activityFilled <- merge(avgActbyInterval,activityFilled, by="interval")
+
+for(i in 1:nrow(activityFilled)) {if (is.na(activityFilled[i,]$steps.y)) {activityFilled[i,]$steps.y = activityFilled[i,]$steps.x }}
+ 
+activityFilled <- subset(activityFilled,select=-steps.x)
+colnames(activityFilled)<-c("interval","steps","date")
+
+summary(activityFilled)
+    interval          steps             date           
+ Min.   :   0.0   Min.   :  0.00   Min.   :2012-10-01  
+ 1st Qu.: 588.8   1st Qu.:  0.00   1st Qu.:2012-10-16  
+ Median :1177.5   Median :  0.00   Median :2012-10-31  
+ Mean   :1177.5   Mean   : 37.38   Mean   :2012-10-31  
+ 3rd Qu.:1766.2   3rd Qu.: 27.00   3rd Qu.:2012-11-15  
+ Max.   :2355.0   Max.   :806.00   Max.   :2012-11-30  
+                                                       
+         NA              NA       
+ Monday   :    0   weekday:17568  
+ Tuesday  :    0                  
+ Wednesday:    0                  
+ Thursday :    0                  
+ Friday   :    0                  
+ (Other)  :    0                  
+ NA's     :17568                  
+actFilledbyDate <-  aggregate(steps ~ date, activityFilled, sum)
+medianstepsF <- median(actFilledbyDate$steps,na.rm=TRUE)
+avgstepsF <- mean(actFilledbyDate$steps,na.rm=TRUE)
+weekend <- c("Saturday","Monday")
+ 
+dayofweek <- weekdays(activityFilled$date)
+
+for (i in 1:length(dayofweek)){
+     if (dayofweek[i] %in% weekend){
+         dayofweek[i] = "weekend"
+     } else {
+        dayofweek[i] = "weekday"
+    }
+}
+
+# Append the vector to the dataframe
+activityFilledWeek <- cbind(activityFilled,dayofweek)
+
+str(activityFilledWeek)
+'data.frame':	17568 obs. of  6 variables:
+ $ interval : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ steps    : num  1.72 0 0 0 0 ...
+ $ date     : Date, format: "2012-10-01" ...
+ $ NA       : Factor w/ 7 levels "Monday","Tuesday",..: NA NA NA NA NA NA NA NA NA NA ...
+ $ NA       : Factor w/ 1 level "weekday": 1 1 1 1 1 1 1 1 1 1 ...
+ $ dayofweek: Factor w/ 2 levels "weekday","weekend": 1 1 2 1 2 1 2 1 1 2 ...
+actFilledweekday <- subset(activityFilledWeek, dayofweek=="weekday")
+actFilledweekend <- subset(activityFilledWeek, dayofweek=="weekend")
+ 
+avgActFilledweekdaybyInterval <- aggregate(steps ~ interval, actFilledweekday, mean,na.rm=TRUE)
+dayofweek<-"weekday"
+avgActFilledweekdaybyInterval <- cbind(avgActFilledweekdaybyInterval,dayofweek)
+avgActFilledweekendbyInterval <- aggregate(steps ~ interval, actFilledweekend, mean,na.rm=TRUE)
+dayofweek <- "weekend"
+avgActFilledweekendbyInterval <- cbind(avgActFilledweekendbyInterval,dayofweek)
+ 
+avgActFilledbyInterval <-rbind(avgActFilledweekdaybyInterval,avgActFilledweekendbyInterval)
+ggplot(avgActFilledbyInterval, aes(x=interval, y=steps,color=dayofweek)) + 
+    geom_line() +
+    facet_wrap(~dayofweek, nrow=2, ncol=1) +
+    ggtitle("CORRELATION - Weekday vs. Weekend")+
+    labs(x="Interval", y="Avg # of Steps") +
+     theme_bw()+theme(legend.position="none")
