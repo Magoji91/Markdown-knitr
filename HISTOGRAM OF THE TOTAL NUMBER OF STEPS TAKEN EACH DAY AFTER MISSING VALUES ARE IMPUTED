@@ -1,0 +1,1 @@
+hist(totalstepsimputed$steps, xlab = "STEPS", main = "HISTOGRAM AFTER THE MISSING VALUES", col = 'GREEN')
