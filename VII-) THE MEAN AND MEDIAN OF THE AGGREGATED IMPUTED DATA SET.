@@ -1,8 +1,0 @@
-mean(totalstepsimputed$steps)
-[1] 10766.19
-> median(totalstepsimputed$steps)
-[1] 10765
-> mean(totalsteps$steps)
-[1] 10766.19
-> median(totalsteps$steps)
-[1] 10765
