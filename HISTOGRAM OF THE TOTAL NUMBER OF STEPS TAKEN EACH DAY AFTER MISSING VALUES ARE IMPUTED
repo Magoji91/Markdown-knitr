@@ -1,2 +1,0 @@
-hist(steps_per_day2$steps, xlab = "STEPS", main = "HISTOGRAM AFTER THE MISSING VALUES", col = 'RED')
-https://github.com/Magoji91/Markdown-knitr
