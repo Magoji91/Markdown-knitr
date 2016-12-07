@@ -2,5 +2,5 @@ avgActbyInterval <- aggregate(steps ~ interval, activity, mean,na.rm=TRUE)
 library(ggplot2)
 ggplot(avgActbyInterval,aes(x=interval,y=steps,group=0)) +
     geom_line(col="RED", size=1) + 
-    labs(title="PLOT OF AVERAGE STEPS BY INTERVAL",x="Daily interval",y="STEPS") + 
+    labs(title="AVERAGE STEPS BY INTERVAL",x="Daily interval",y="STEPS") + 
     theme_bw()
