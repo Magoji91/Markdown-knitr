@@ -1,0 +1,10 @@
+sum(is.na(activity$steps))
+[1] 0
+activityimputed <- activity %>%
+                    group_by(interval) %>%
+                    mutate(steps = replace(steps, is.na(steps), mean(steps, na.rm = TRUE)))
+totalstepsimputed <- activityimputed %>%
+                      group_by(date) %>%
+                      summarise(steps = sum(steps))
+
+head(totalstepsimputed)
