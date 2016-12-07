@@ -10,4 +10,7 @@ activity2 <- activity2[, !(names(activity2) %in% c("steps.y"))]
 sum(is.na(activity2$steps))
 [1] 0
 steps_per_day2 <- aggregate(steps ~ date, data = activity2, FUN = sum)
-hist(steps_per_day2$steps, names.arg = steps_per_day2$date)
+ggplot(steps_per_day2, aes(x = steps)) + 
+       geom_histogram(fill = "RED", binwidth = 600) + 
+        labs(title="Histogram of Steps Taken per Day", 
+             x = "Number of Steps per Day", y = "Number of times in a day(Count)") + theme_bw()
