@@ -1,4 +1,48 @@
-activityData$date<-as.Date(data$date)
-activityData$Day_in_week<-ifelse((weekdays(data$date) %in% c("Monday","Tuesday","Wednesday","Thursday","Friday")), 
-+                          "weekday","weekend")
-data_by_interval<-group_by(data,Day_in_week,interval)
+weekend <- c("saturday","sunday")
+
+dayofweek <- weekdays(activityFilled$date)
+
+for (i in 1:length(dayofweek)){
+    if (dayofweek[i] %in% weekend){
+        dayofweek[i] = "weekend"
+        } else {
+        dayofweek[i] = "weekday"
+        }
+}
+
+
+activityFilledWeek <- cbind(activityFilled,dayofweek)
+
+str(activityFilledWeek)
+## 'data.frame':    17568 obs. of  4 variables:
+##  $ interval : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ steps    : num  1.72 0 0 0 0 ...
+##  $ date     : Date, format: "2012-10-01" "2012-11-23" ...
+##  $ dayofweek: Factor w/ 2 levels "weekday","weekend": 1 1 2 1 2 1 2 1 1 2 ...
+To compare weekends and weekdays
+
+
+actFilledweekday <- subset(activityFilledWeek, dayofweek=="weekday")
+actFilledweekend <- subset(activityFilledWeek, dayofweek=="weekend")
+
+
+avgActFilledweekdaybyInterval <- aggregate(steps ~ interval, actFilledweekday, mean,na.rm=TRUE)
+
+dayofweek<-"weekday"
+avgActFilledweekdaybyInterval <- cbind(avgActFilledweekdaybyInterval,dayofweek)
+
+avgActFilledweekendbyInterval <- aggregate(steps ~ interval, actFilledweekend, mean,na.rm=TRUE)
+
+dayofweek <- "weekend"
+avgActFilledweekendbyInterval <- cbind(avgActFilledweekendbyInterval,dayofweek)
+
+
+avgActFilledbyInterval <-rbind(avgActFilledweekdaybyInterval,avgActFilledweekendbyInterval)
+Now, the panel with the comparisons between weekday and weekend is displayed using ggplot2.
+
+ggplot(avgActFilledbyInterval, aes(x=interval, y=steps,color=dayofweek)) + 
+        geom_line() +
+        facet_wrap(~dayofweek, nrow=2, ncol=1) +
+        ggtitle("TOTAL OF AVERAGE STEPS - WEEKDAY X WEEKEND")+
+        labs(x="Interval", y="Avg # of Steps") +
+        theme_bw()+theme(legend.position="none") #no background and legend
