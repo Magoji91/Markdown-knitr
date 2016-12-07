@@ -21,16 +21,16 @@ if(file.exists("./activity.csv")){
                 print("Completed.")
                 print("Loading Data...")
 }
-activityData <- read.csv ("activity.csv", header = T, sep = ",", stringsAsFactors = F)
-activityData$date <- as.Date(activityData$date, "%Y-%m-%d")
-str(activityData)
+activity<- read.csv ("activity.csv", header = T, sep = ",", stringsAsFactors = F)
+activity$date <- as.Date(activity$date, "%Y-%m-%d")
+str(activity)
 
 'data.frame':   17568 obs. of  3 variables:
  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
  $ date    : Date, format: "2012-10-01" "2012-10-01" ...
  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
 
- summary(activityData)
+ summary(activity)
      steps             date           
  Min.   :  0.00   Min.   :2012-10-01  
  1st Qu.:  0.00   1st Qu.:2012-10-16  
@@ -48,10 +48,10 @@ str(activityData)
  Max.   :2355.0 
 
 
-dim(activityData)
+dim(activity)
 [1] 17568     3
 
-head(activityData)
+head(activity)
 
  steps       date interval
 1    NA 2012-10-01        0
