@@ -1,0 +1,2 @@
+actbyDate <-  aggregate(steps ~ date, activity, sum)
+> with(actbyDate,hist(steps,col="PURPLE",breaks=10,main="# of Steps per Day",xlab="# of steps"))
