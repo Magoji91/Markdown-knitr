@@ -1,4 +1,4 @@
-Loading and preprocessing the data
+KNOWNING THE DATA
 
 if (!file.exists("data")) {dir.create("data")}
 fileUrl <- "https://www.coursera.org/learn/reproducible-research/peer/gYyPt/course-project-1"
