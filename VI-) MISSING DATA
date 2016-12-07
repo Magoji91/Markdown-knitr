@@ -1,10 +1,13 @@
+steps_by_interval <- aggregate(steps ~ interval, data = activity, FUN = mean)
+steps_by_interval$interval[which.max(steps_by_interval$steps)]
+[1] 835
 sum(is.na(activity$steps))
+[1] 2304
+> activity2 <- merge(activity, steps_by_interval, 
+                    by = "interval", suffixes = c("", ".y"))
+activity2$steps[is.na(activity2$steps)] <- floor(activity2$steps.y[is.na(activity2$steps)])
+activity2 <- activity2[, !(names(activity2) %in% c("steps.y"))]
+sum(is.na(activity2$steps))
 [1] 0
-activityimputed <- activity %>%
-                    group_by(interval) %>%
-                    mutate(steps = replace(steps, is.na(steps), mean(steps, na.rm = TRUE)))
-totalstepsimputed <- activityimputed %>%
-                      group_by(date) %>%
-                      summarise(steps = sum(steps))
-
-head(totalstepsimputed)
+steps_per_day2 <- aggregate(steps ~ date, data = activity2, FUN = sum)
+hist(steps_per_day2$steps, names.arg = steps_per_day2$date)
